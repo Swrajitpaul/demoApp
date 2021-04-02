@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">demoApp</string>
+    <string name="app_name">Swrajit\'s Portfolio</string>
+    <string name="button">Enter</string>
+    <string name="select_mode_text">Select the mode to view app</string>
 </resources>
