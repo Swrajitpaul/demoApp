@@ -16,6 +16,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String WEB = "WEB";
     public static final String MODE = "MODE";
     private Button mButton;
+    private Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,11 +26,11 @@ public class MainActivity extends AppCompatActivity {
 
         TabHost tabs = (TabHost) findViewById(R.id.tabhost);
         tabs.setup();
-        TabHost.TabSpec spec = tabs.newTabSpec("tag1");
+        TabHost.TabSpec spec = tabs.newTabSpec("native");
         spec.setContent(R.id.tab1);
         spec.setIndicator(NATIVE);
         tabs.addTab(spec);
-        spec = tabs.newTabSpec("tag2");
+        spec = tabs.newTabSpec("web");
         spec.setContent(R.id.tab2);
         spec.setIndicator(WEB);
         tabs.addTab(spec);
@@ -37,8 +38,12 @@ public class MainActivity extends AppCompatActivity {
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, TransitionActivity.class);
-                intent.putExtra(MODE, tabs.getCurrentTabTag());
+                if (tabs.getCurrentTabTag().equals("web")) {
+                    intent = new Intent(MainActivity.this, TransitionActivity.class);
+                }
+                else {
+                    intent = new Intent(MainActivity.this, LandingActivity.class);
+                }
                 startActivity(intent);
             }
         });

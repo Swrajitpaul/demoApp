@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import java.util.Random;
 
@@ -14,6 +15,7 @@ public class TransitionActivity extends AppCompatActivity {
     private ProgressBar mProgressBar;
     private int mProgress;
     private Handler handler = new Handler();
+    private Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,17 +23,22 @@ public class TransitionActivity extends AppCompatActivity {
         setContentView(R.layout.activity_transition);
 
         mProgressBar = (ProgressBar)findViewById(R.id.progressBar);
+        TextView progressPercent = (TextView)findViewById(R.id.progressPercentage);
         mProgressBar.setProgress(mProgress);
         mProgress = 0;
+
         new Thread(new Runnable() {
             public void run() {
                 while (mProgress < 100) {
                     Random random = new Random();
-                    int randomNumber = random.nextInt(10);
+                    int randomNumber = random.nextInt(15);
                     handler.post(new Runnable() {
                         public void run() {
                             mProgress += randomNumber;
+                            if (mProgress > 100)
+                                mProgress = 100;
                             mProgressBar.setProgress(mProgress);
+                            progressPercent.setText(mProgress + "%");
                         }
                     });
                     try {
@@ -41,7 +48,8 @@ public class TransitionActivity extends AppCompatActivity {
                     }
 
                 }
-                Intent intent = new Intent(TransitionActivity.this, MainActivity.class);
+
+                intent = new Intent(TransitionActivity.this, WebActivity.class);
                 startActivity(intent);
             }
         }).start();
